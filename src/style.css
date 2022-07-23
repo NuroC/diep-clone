@@ -1,0 +1,10 @@
+#canvas-container {
+    width: 100%;
+    text-align:center;
+ }
+ 
+ #canvas {
+    display: inline;
+    margin: 0 auto;
+    overflow: none;
+ }
