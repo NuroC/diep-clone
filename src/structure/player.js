@@ -1,3 +1,5 @@
+const Bullet = require('./bullet');
+
 class Player {
     constructor(x, y, radius) {
         this.x = x;
@@ -12,8 +14,15 @@ class Player {
             x: 0,
             y: 0
         };
+        this.bullets = [];
+        this.rorhlength = 80;
+        this.rohrdecr = 6;
     }
     draw(ctx, camera, keys) {
+        this.bullets.forEach(bullet => {
+            bullet.draw(ctx, camera);
+        })
+
         this.update(keys);
         this.conduit(ctx, camera)
         let x = camera.getPosOnScreen(this.x, this.y).x;
@@ -84,8 +93,6 @@ class Player {
         this.mouseY = y;
     }
     conduit(ctx, camera) {
-        let rorhlength = 80
-        let rohrdecr = 6
         let mx = this.mouseX
         let my = this.mouseY
         
@@ -99,7 +106,7 @@ class Player {
         ctx.strokeStyle = '#6d6d6d';
         ctx.lineWidth = '40';
         ctx.moveTo(x, y);
-        ctx.lineTo(x + rorhlength * Math.cos(direction), y + rorhlength * Math.sin(direction));
+        ctx.lineTo(x + this.rorhlength * Math.cos(direction), y + this.rorhlength * Math.sin(direction));
         ctx.fill()
         ctx.stroke()
         
@@ -108,17 +115,25 @@ class Player {
         ctx.strokeStyle = '#888888';
         ctx.lineWidth = '29';
         ctx.moveTo(x, y);
-        ctx.lineTo(x + (rorhlength - rohrdecr) * Math.cos(direction), y + (rorhlength - rohrdecr) * Math.sin(direction));
+        ctx.lineTo(x + (this.rorhlength - this.rohrdecr) * Math.cos(direction), y + (this.rorhlength - this.rohrdecr) * Math.sin(direction));
         ctx.fill()
         ctx.stroke()
+    }
+    shoot(ctx, camera) {
+        let mx = this.x;
+        let my = this.y;
 
-        // let xx = camera.getPosOnScreen(this.x, this.y).x;
-        // let yx = camera.getPosOnScreen(this.x, this.y).y;
-        // ctx.beginPath();
-        // ctx.globalAlpha = 1;
-        // ctx.fillStyle = "rgb(52,52,52)";
-        // ctx.arc(xx, yx, this.radius + 16, 0, 2 * Math.PI);
-        // ctx.fill();
+        let x = camera.getPosOnScreen(this.x, this.y).x;
+        let y = camera.getPosOnScreen(this.x, this.y).y;
+
+        let direction = Math.atan2(this.mouseY - y, this.mouseX - x);
+
+        let startx = this.x + (this.rorhlength - this.rohrdecr) * Math.cos(direction);
+        let starty = this.y + (this.rorhlength - this.rohrdecr) * Math.sin(direction);
+
+        let bullet = new Bullet(startx, starty, direction, 69, 10);
+        this.bullets.push(bullet);
+
     }
 }
 

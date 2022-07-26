@@ -1,7 +1,7 @@
-const Canvas = require("./structure/canvas");
+const Canvas = require("./render/canvas");
 const Player = require("./structure/player");
-const Camera = require("./structure/Camera");
-const MathHelper = require("./structure/MathHelper");
+const Camera = require("./render/Camera");
+const MathHelper = require("./lib/MathHelper");
 
 const config = require("./config");
 
@@ -41,6 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 })
 
+document.addEventListener("mousedown", function (e) {
+    player.shoot(ctx, camera);
+})
 
 window.addEventListener("resize", function (e) {
     camera.setViewPort(window.innerWidth, window.innerHeight);
@@ -90,8 +93,7 @@ function render() {
     ctx.stroke();
 
     // render circle at 0,0
-    let centerx = camera.getPosOnScreen(0, 0).x;
-    let centery = camera.getPosOnScreen(0, 0).y;
+    let [centerx, centery ] = Object.values(camera.getPosOnScreen(0, 0))
     canvas.renderCircle(centerx, centery, 10, "red");
 
     
