@@ -63,7 +63,9 @@ function render() {
 
     ctx.setTransform(currentTransform);
 
-    ctx.clearRect(0, 0, viewport.width, viewport.height);
+    ctx.clearRect(0, 0, viewport.width, viewport.height); 
+
+    ctx.setTransform(defaultTransform);
 
     // render background
     canvas.renderBackground(viewport);
@@ -92,7 +94,7 @@ function render() {
     let centery = camera.getPosOnScreen(0, 0).y;
     canvas.renderCircle(centerx, centery, 10, "red");
 
-
+    
 
     window.requestAnimationFrame(render);
 }

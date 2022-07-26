@@ -7,8 +7,7 @@ class Player {
             x: 0,
             y: 0
         };
-        this.speedMultiplier = 1.2;
-
+        this.speedMultiplier = 3.6;
         this.velocity = {
             x: 0,
             y: 0
@@ -41,7 +40,11 @@ class Player {
                 this.velocity.y = -1
             }
         } else if (keys.s) {
-            this.velocity.y = 1;
+            if(this.velocity.y < 1) {
+                this.velocity.y += accsmothnes
+            } else {
+                this.velocity.y = 1
+            }
         } else {
             if (this.velocity.y > 0) {
                 this.velocity.y -= smothnes;
@@ -51,16 +54,27 @@ class Player {
         }
         if (keys.a) {
             if (this.velocity.x > -1) {
-                this.velocity.x = -1;
+                this.velocity.x -= accsmothnes
+            } else {
+                this.velocity.x = -1
             }
         } else if (keys.d) {
-            this.velocity.x = 1;
+            if(this.velocity.x < 1) {
+                this.velocity.x += accsmothnes
+            } else {
+                this.velocity.x = 1
+            }
         } else {
             if (this.velocity.x > 0) {
                 this.velocity.x -= smothnes;
             } else if (this.velocity.x < 0) {
                 this.velocity.x += smothnes;
             }
+        }
+        if (Object.values(keys).filter(key => key).length > 1) {
+            console.log("diagonal")
+            this.velocity.x *= 0.96;
+            this.velocity.y *= 0.96;
         }
         this.x += this.velocity.x * this.speedMultiplier;
         this.y += this.velocity.y * this.speedMultiplier;
