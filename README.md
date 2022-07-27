@@ -3,7 +3,7 @@
 a single player diep.io clone
 
 
-##tood
+## todo
 - [ ] several enemies than can shoot you
 - [ ] player health and health bar
 - [ ] objects you can shoot to get points
