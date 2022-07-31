@@ -17,6 +17,9 @@ class Player {
         this.bullets = [];
         this.rorhlength = 80;
         this.rohrdecr = 6;
+        this.shootCooldown = 0;
+        this.shootCooldownMax = 0.5;
+        this.canShoot = true;
     }
     draw(ctx, camera, keys) {
         this.bullets.forEach(bullet => {
@@ -40,6 +43,11 @@ class Player {
 
     }
     update(keys) {
+        if(this.shootCooldown > 0) {
+            this.shootCooldown -= this.shootCooldownMax / 60;
+        } else {
+            this.canShoot = true;
+        }
         let smothnes = 0.02
         let accsmothnes = .05
         if (keys.w) {
@@ -49,7 +57,7 @@ class Player {
                 this.velocity.y = -1
             }
         } else if (keys.s) {
-            if(this.velocity.y < 1) {
+            if (this.velocity.y < 1) {
                 this.velocity.y += accsmothnes
             } else {
                 this.velocity.y = 1
@@ -68,7 +76,7 @@ class Player {
                 this.velocity.x = -1
             }
         } else if (keys.d) {
-            if(this.velocity.x < 1) {
+            if (this.velocity.x < 1) {
                 this.velocity.x += accsmothnes
             } else {
                 this.velocity.x = 1
@@ -95,12 +103,12 @@ class Player {
     conduit(ctx, camera) {
         let mx = this.mouseX
         let my = this.mouseY
-        
+
         let x = camera.getPosOnScreen(this.x, this.y).x
         let y = camera.getPosOnScreen(this.x, this.y).y
-        
+
         let direction = Math.atan2(my - y, mx - x);
-        
+
         ctx.beginPath();
         ctx.globalAlpha = 1;
         ctx.strokeStyle = '#6d6d6d';
@@ -109,7 +117,7 @@ class Player {
         ctx.lineTo(x + this.rorhlength * Math.cos(direction), y + this.rorhlength * Math.sin(direction));
         ctx.fill()
         ctx.stroke()
-        
+
         ctx.beginPath();
         ctx.globalAlpha = 1;
         ctx.strokeStyle = '#888888';
@@ -120,6 +128,7 @@ class Player {
         ctx.stroke()
     }
     shoot(ctx, camera) {
+        if (!this.canShoot) return;
         let mx = this.x;
         let my = this.y;
 
@@ -133,7 +142,7 @@ class Player {
 
         let bullet = new Bullet(startx, starty, direction, 69, 10);
         this.bullets.push(bullet);
-
+        
     }
 }
 

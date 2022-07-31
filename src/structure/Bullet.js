@@ -21,7 +21,7 @@ class bullet {
         ctx.globalAlpha = 1
         ctx.lineWidth = 3;
         ctx.fillStyle = '#0085A8'
-        ctx.arc(x, y, this.radius + 3, 0, 2 * Math.PI);
+        ctx.arc(x, y, this.radius + 5, 0, 2 * Math.PI);
         ctx.fill();
 
         ctx.beginPath();
