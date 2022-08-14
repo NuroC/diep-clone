@@ -10,7 +10,7 @@ class Canvas {
     }
     setAspects(width, height) {
         this.canvas.width = width;
-        this.canvasheight = height;
+        this.canvas.height = height;
     }
     getAspects() {
         return {
